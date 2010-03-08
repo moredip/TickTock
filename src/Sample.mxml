@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	creationComplete="onCreationComplete()">    
+	<mx:Button label="click me" click="onBtnClick()"/>
+	<mx:Label text="{_output}"/> 
+	<mx:Script>
+	<![CDATA[
+		import net.thepete.TickTock;
+
+		[Bindable]
+		private var _output:String = "";
+		private function onCreationComplete():void
+		{
+		}
+
+		private function onBtnClick():void {
+			var tt:TickTock = TickTock.measure( function():void {
+				doSomeWork();
+			});
+
+			_output = "That took "+tt.elapsedTimeInMilliseconds+" milliesconds";
+		}
+
+		private function doSomeWork(approxNumMilliseconds:int = 100):void {
+			for( var i:int = 0; i < (300000*approxNumMilliseconds); i++ ){
+			}
+		}
+	]]>
+	</mx:Script>    
+</mx:Application>
