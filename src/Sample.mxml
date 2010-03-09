@@ -30,10 +30,14 @@
 
       var tt:TickTock = new TickTock();
       httpService.addEventListener(ResultEvent.RESULT, function():void {
-        trace( 'fetch returned' );
         tt.stop();
+      });
+
+      httpService.addEventListener(ResultEvent.RESULT, function():void {
+        trace( 'fetch returned' );
         reportTiming(tt);
       });
+
       httpService.addEventListener(FaultEvent.FAULT, function(event:FaultEvent):void {
         trace( 'fetch failed: '+ event);
         _output = 'fetch failed: '+event;
