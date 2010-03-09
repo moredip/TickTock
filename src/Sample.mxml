@@ -3,7 +3,7 @@
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	creationComplete="onCreationComplete()">    
   <mx:HBox>
-    <mx:TextInput id="tiUrl" text="http://www.google.com"/>
+    <mx:TextInput id="tiUrl" text="http://api.flickr.com/services/rest"/>
     <mx:Button label="fetch" click="onUrlFetch()"/>
   </mx:HBox>
 	<mx:Button label="click me" click="onBtnClick()"/>
