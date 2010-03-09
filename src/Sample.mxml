@@ -2,17 +2,51 @@
 <mx:Application 
 	xmlns:mx="http://www.adobe.com/2006/mxml"
 	creationComplete="onCreationComplete()">    
+  <mx:HBox>
+    <mx:TextInput id="tiUrl" text="http://www.google.com"/>
+    <mx:Button label="fetch" click="onUrlFetch()"/>
+  </mx:HBox>
 	<mx:Button label="click me" click="onBtnClick()"/>
 	<mx:Label text="{_output}"/> 
 	<mx:Script>
 	<![CDATA[
 		import net.thepete.TickTock;
 
+    import mx.rpc.http.HTTPService;
+    import mx.rpc.events.ResultEvent;
+    import mx.rpc.events.FaultEvent;
+
 		[Bindable]
 		private var _output:String = "";
 		private function onCreationComplete():void
 		{
 		}
+
+    private function onUrlFetch():void {
+      var httpService:HTTPService = new HTTPService();
+      httpService.resultFormat = "text";
+      httpService.url = tiUrl.text;
+      trace( "fetching "+httpService.url );
+
+      var tt:TickTock = new TickTock();
+      httpService.addEventListener(ResultEvent.RESULT, function():void {
+        trace( 'fetch returned' );
+        tt.stop();
+        reportTiming(tt);
+      });
+      httpService.addEventListener(FaultEvent.FAULT, function(event:FaultEvent):void {
+        trace( 'fetch failed: '+ event);
+        _output = 'fetch failed: '+event;
+      });
+
+      _output = "fetching...";
+      tt.start();
+      httpService.send();
+    }
+
+    private function reportTiming(tickTock:TickTock):void {
+    _output = "That took "+tickTock.elapsedTimeInMilliseconds+" milliesconds";
+    }
 
 		private function onBtnClick():void {
 			var tt:TickTock = TickTock.measure( function():void {

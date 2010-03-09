@@ -7,7 +7,11 @@ file 'bin/TickTock.swc' => ['src/net/thepete/TickTock.as'] do
 end
 
 file 'bin/Sample.swf' => ['src/Sample.mxml','bin/TickTock.swc'] do
-  `mxmlc -library-path+=bin/TickTock.swc src/Sample.mxml -output bin/Sample.swf`
+  `mxmlc -use-network -library-path+=bin/TickTock.swc src/Sample.mxml -output bin/Sample.swf`
+end
+
+task :clean do
+  `rm bin/*`
 end
 
 task :default => 'bin/Sample.swf'
